@@ -71,6 +71,10 @@ disable_webmin_ssl() {
   sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
 }
 
+enable_webmin_ssl() {
+  sed -i 's/ssl=0/ssl=1/g' /etc/webmin/miniserv.conf
+}
+
 set_webmin_redirect_port() {
   echo "redirect_port=$WEBMIN_INIT_REDIRECT_PORT" >> /etc/webmin/miniserv.conf
 }
@@ -98,6 +102,9 @@ first_init() {
     if [ "${WEBMIN_INIT_SSL_ENABLED}" == "false" ]; then
       disable_webmin_ssl
     fi
+    elif [ "${WEBMIN_INIT_SSL_ENABLED}" == "true" ]; then
+      enable_webmin_ssl
+    fi 
     if [ "${WEBMIN_INIT_REFERERS}" != "NONE" ]; then
       set_webmin_referers
     fi
