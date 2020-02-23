@@ -101,7 +101,6 @@ first_init() {
     set_webmin_redirect_port
     if [ "${WEBMIN_INIT_SSL_ENABLED}" == "false" ]; then
       disable_webmin_ssl
-    fi
     elif [ "${WEBMIN_INIT_SSL_ENABLED}" == "true" ]; then
       enable_webmin_ssl
     fi 
