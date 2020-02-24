@@ -76,7 +76,12 @@ enable_webmin_ssl() {
 }
 
 set_webmin_redirect_port() {
-  echo "redirect_port=$WEBMIN_INIT_REDIRECT_PORT" >> /etc/webmin/miniserv.conf
+  webmin_redirect_port_var_exists=$(grep -q "redirect_port" "/etc/webmin/miniserv.conf" ; echo $?)
+  if [ "$webmin_redirect_port_var_exists" == "1" ] 
+  then
+  	echo "redirect_port=$WEBMIN_INIT_REDIRECT_PORT" >> /etc/webmin/miniserv.conf
+  fi	
+  sed -i "s/^redirect_port.*/redirect_port=$WEBMIN_INIT_REDIRECT_PORT/" /etc/webmin/miniserv.conf
 }
 
 set_webmin_referers() {
