@@ -32,4 +32,4 @@ jobs:
         --platform linux/amd64,linux/arm64,linux/arm/v7 \
         --tag eafxx/bind:exp \
         --push . \
-        --file ./Dockerfile-u19
+        --file ./Dockerfile

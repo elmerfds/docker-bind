@@ -35,4 +35,4 @@ jobs:
         --tag eafxx/bind:latest \
         --tag eafxx/bind:latest-${{ env.GITHUB_SHA_SHORT }} \
         --push . \
-        --file ./Dockerfile-u19
+        --file ./Dockerfile
