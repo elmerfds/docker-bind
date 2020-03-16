@@ -119,6 +119,13 @@ first_init() {
     if [ "${WEBMIN_INIT_REFERERS}" != "NONE" ]; then
       set_webmin_referers
     fi
+    if [ "${WEBMIN_INIT_REFERERS}" == "NONE" ]; then
+      webmin_referers_var_exists=$(grep -q "referers=" "/etc/webmin/config" ; echo $?)
+      if [ "$webmin_referers_var_exists" != "1" ] 
+      then 
+        sed -i "/^referers=.*/d" /etc/webmin/config 
+      fi
+    fi    
 }
 
 create_pid_dir

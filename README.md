@@ -1,4 +1,4 @@
-# sameersbn/bind:9.11.3-20190706
+# eafxx/bind
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -47,7 +47,7 @@ Automated builds of the image are available on [Dockerhub](https://hub.docker.co
 > **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/bind)
 
 ```bash
-docker pull sameersbn/bind:9.11.3-20190706
+docker pull eafxx/bind:9.11.3-20190706
 ```
 
 Alternatively you can build the image yourself.
@@ -112,38 +112,6 @@ If you need to run Webmin behind a reverse-proxy such as Nginx, you can tweak th
 * `WEBMIN_INIT_REFERERS`: Sets the allowed referrers to Webmin. 
    Set this to your domain name of the reverse proxy. Example: `mywebmin.example.com`. 
    Defaults to empty (no referrer).
-
-# Maintenance
-
-## Upgrading
-
-To upgrade to newer releases:
-
-  1. Download the updated Docker image:
-
-  ```bash
-  docker pull sameersbn/bind:9.11.3-20190706
-  ```
-
-  2. Stop the currently running image:
-
-  ```bash
-  docker stop bind
-  ```
-
-  3. Remove the stopped container
-
-  ```bash
-  docker rm -v bind
-  ```
-
-  4. Start the updated image
-
-  ```bash
-  docker run -name bind -d \
-    [OPTIONS] \
-    sameersbn/bind:9.11.3-20190706
-  ```
 
 ## Shell Access
 
