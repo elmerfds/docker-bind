@@ -77,7 +77,7 @@ Docker Compose
             - "53:53/udp"
             - 10000:10000/tcp
         volumes:
-            - ${DOCKER_DATA}/bind/data:/data
+            - /path/to/bind/data:/data
         environment:
             - WEBMIN_ENABLED=true
             - WEBMIN_INIT_SSL_ENABLED=false

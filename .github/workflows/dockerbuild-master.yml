@@ -1,6 +1,8 @@
 name: Docker Build Master
 on:
   push:
+    paths-ignore:
+      - 'README.md'    
     branches: 
       - master
   schedule:

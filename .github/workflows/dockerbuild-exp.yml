@@ -2,7 +2,7 @@ name: Docker Build Exp
 on:
   push:
     paths-ignore:
-      - 'README.md'  
+      - 'README.md'
     branches: 
       - exp
 jobs:

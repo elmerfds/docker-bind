@@ -1,12 +1,21 @@
-version: '2'
-
+version: "3.6"
 services:
-  bind:
-    restart: always
-    image: eafxx/bind
-    ports:
-    - "53:53/udp"
-    - "53:53/tcp"
-    - "10000:10000/tcp"
-    volumes:
-    - /srv/docker/bind:/data
+    bind:
+        container_name: bind
+        hostname: bind
+        network_mode: bridge
+        image: eafxx/bind
+        restart: unless-stopped
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - 10000:10000/tcp
+        volumes:
+            - /path/to/bind/data:/data
+        environment:
+            - WEBMIN_ENABLED=true
+            - WEBMIN_INIT_SSL_ENABLED=false
+            - WEBMIN_INIT_REFERERS=dns.domain.com
+            - WEBMIN_INIT_REDIRECT_PORT=10000
+            - ROOT_PASSWORD=password
+            - TZ=Europe/London
