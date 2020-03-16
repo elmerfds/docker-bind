@@ -23,7 +23,7 @@ jobs:
         echo ${{ env.GITHUB_SHA_SHORT }}
     - name: Set up Docker Buildx
       id: buildx
-      uses: crazy-max/ghaction-docker-buildx@v1
+      uses: crazy-max/ghaction-docker-buildx@v1.0.5
       with:
         version: latest
     - name: Available platforms
