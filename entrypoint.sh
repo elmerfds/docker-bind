@@ -80,12 +80,19 @@ set_webmin_redirect_port() {
   if [ "$webmin_redirect_port_var_exists" == "1" ] 
   then
   	echo "redirect_port=$WEBMIN_INIT_REDIRECT_PORT" >> /etc/webmin/miniserv.conf
+  else
+    sed -i "s/^redirect_port.*/redirect_port=$WEBMIN_INIT_REDIRECT_PORT/" /etc/webmin/miniserv.conf  
   fi	
-  sed -i "s/^redirect_port.*/redirect_port=$WEBMIN_INIT_REDIRECT_PORT/" /etc/webmin/miniserv.conf
 }
 
 set_webmin_referers() {
-  echo "referers=$WEBMIN_INIT_REFERERS" >> /etc/webmin/config
+  webmin_referers_var_exists=$(grep -q "referers=" "/etc/webmin/config" ; echo $?)
+  if [ "$webmin_referers_var_exists" == "1" ] 
+  then  
+    echo "referers=$WEBMIN_INIT_REFERERS" >> /etc/webmin/config  
+  else
+    sed -i "s/^referers=.*/referers=$WEBMIN_INIT_REFERERS/" /etc/webmin/config  
+  fi
 }
 
 set_root_passwd() {
