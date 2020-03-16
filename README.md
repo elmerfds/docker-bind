@@ -1,122 +1,106 @@
 # eafxx/bind
 
+A fork of [sameersbn/bind](https://github.com/sameersbn/docker-bind) repo, how does it defer?
+- Multiarch Support (amd64,armv7,arm64)
+- Running on Ubuntu 19
+- Bind: 9.11.5 
+- Webmin: 1.941+ (which mitigates [vulnerability](https://thehackernews.com/2019/08/webmin-vulnerability-hacking.html))
+- Added Timezone (TZ) support
+- Image auto-builds on schedule (every Sat 12:00)
+- Ubuntu updates will be applied during each scheduled build
+- Reverse Proxy friendly ([utkuozdemir/docker-bind](https://github.com/utkuozdemir/docker-bind/tree/webmin-reverse-proxy-config))
+- Fixes to [utkuozdemir/docker-bind](https://github.com/utkuozdemir/docker-bind/tree/webmin-reverse-proxy-config)'s 'Reverse Proxy friendly' update. 
+  * Cleanup of config & miniserv.conf when variables are used & then removed
+  * Removing duplicate entries to config & miniserv.conf
+ 
+## Contents
 - [Introduction](#introduction)
-  - [Contributing](#contributing)
-  - [Issues](#issues)
 - [Getting started](#getting-started)
   - [Installation](#installation)
   - [Quickstart](#quickstart)
-  - [Command-line arguments](#command-line-arguments)
-  - [Persistence](#persistence)
-- [Maintenance](#maintenance)
-  - [Upgrading](#upgrading)
-  - [Shell Access](#shell-access)
 
 # Introduction
 
-`Dockerfile` to create a [Docker](https://www.docker.com/) container image for [BIND](https://www.isc.org/downloads/bind/) DNS server bundled with the [Webmin](http://www.webmin.com/) interface.
+Docker container image for [BIND](https://www.isc.org/downloads/bind/) DNS server bundled with the [Webmin](http://www.webmin.com/) interface.
 
 BIND is open source software that implements the Domain Name System (DNS) protocols for the Internet. It is a reference implementation of those protocols, but it is also production-grade software, suitable for use in high-volume and high-reliability applications.
 
-## Contributing
-
-If you find this image useful here's how you can help:
-
-- Send a pull request with your awesome features and bug fixes
-- Help users resolve their [issues](../../issues?q=is%3Aopen+is%3Aissue).
-- Support the development of this image with a [donation](http://www.damagehead.com/donate/)
-
-## Issues
-
-Before reporting your issue please try updating Docker to the latest version and check if it resolves the issue. Refer to the Docker [installation guide](https://docs.docker.com/installation) for instructions.
-
-SELinux users should try disabling SELinux using the command `setenforce 0` to see if it resolves the issue.
-
-If the above recommendations do not help then [report your issue](../../issues/new) along with the following information:
-
-- Output of the `docker version` and `docker info` commands
-- The `docker run` command or `docker-compose.yml` used to start the image. Mask out the sensitive bits.
-- Please state if you are using [Boot2Docker](http://www.boot2docker.io), [VirtualBox](https://www.virtualbox.org), etc.
-
 # Getting started
+
+**Tags**
+
+| Tag      | Description                          | Build Status                                                                                                | 
+| ---------|--------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| latest | master/stable                 | ![Docker Build Master](https://github.com/elmerfdz/docker-bind/workflows/Docker%20Build%20Master/badge.svg)  | 
+| dev | development, pre-release      | ![Docker Build Dev](https://github.com/elmerfdz/docker-bind/workflows/Docker%20Build%20Dev/badge.svg)     |
+| exp | unstable, experimental        | ![Docker Build Exp](https://github.com/elmerfdz/docker-bind/workflows/Docker%20Build%20Exp/badge.svg)   | 
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/bind) and is the recommended method of installation.
-
-> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/bind)
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/eafxx/bind) and is the recommended method of installation.
 
 ```bash
-docker pull eafxx/bind:9.11.3-20190706
+docker pull eafxx/bind
 ```
+OR
 
 Alternatively you can build the image yourself.
 
 ```bash
-docker build -t sameersbn/bind github.com/sameersbn/docker-bind
+docker build -t eafxx/bind github.com/eafxx/docker-bind
 ```
 
 ## Quickstart
 
-Start BIND using:
+Docker Run:
 
 ```bash
 docker run --name bind -d --restart=always \
-  --publish 53:53/tcp --publish 53:53/udp --publish 10000:10000/tcp \
-  --volume /srv/docker/bind:/data \
-  sameersbn/bind:9.11.3-20190706
+  -p 53:53/tcp -p 53:53/udp -p 10000:10000/tcp \
+  -v /path/to/bind/data:/data \
+  eafxx/bind
 ```
 
-*Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
+OR
 
-When the container is started the [Webmin](http://www.webmin.com/) service is also started and is accessible from the web browser at https://localhost:10000. Login to Webmin with the username `root` and password `password`. Specify `--env ROOT_PASSWORD=secretpassword` on the `docker run` command to set a password of your choosing.
+Docker Compose
 
-The launch of Webmin can be disabled by adding `--env WEBMIN_ENABLED=false` to the `docker run` command. Note that the `ROOT_PASSWORD` parameter has no effect when the launch of Webmin is disabled.
-
-Read the blog post [Deploying a DNS Server using Docker](http://www.damagehead.com/blog/2015/04/28/deploying-a-dns-server-using-docker/) for an example use case.
-
-## Command-line arguments
-
-You can customize the launch command of BIND server by specifying arguments to `named` on the `docker run` command. For example the following command prints the help menu of `named` command:
-
-```bash
-docker run --name bind -it --rm \
-  --publish 53:53/tcp --publish 53:53/udp --publish 10000:10000/tcp \
-  --volume /srv/docker/bind:/data \
-  sameersbn/bind:9.11.3-20190706 -h
+```
+    bind:
+        container_name: bind
+        hostname: bind
+        network_mode: bridge
+        image: eafxx/bind
+        restart: unless-stopped
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - 10000:10000/tcp
+        volumes:
+            - ${DOCKER_DATA}/bind/data:/data
+        environment:
+            - WEBMIN_ENABLED=true
+            - WEBMIN_INIT_SSL_ENABLED=false
+            - WEBMIN_INIT_REFERERS=dns.domain.com
+            - WEBMIN_INIT_REDIRECT_PORT=10000
+            - ROOT_PASSWORD=p@ssw0rd
+            - TZ=Europe/London
 ```
 
-## Persistence
+When the container is started the [Webmin](http://www.webmin.com/) service is also started and is accessible from the web browser at https://serverIP:10000. Login to Webmin with the username `root` and password `password`. Specify `--env ROOT_PASSWORD=secretpassword` on the `docker run` command to set a password of your choosing. The launch of Webmin can be disabled if not required. 
 
-For the BIND to preserve its state across container shutdown and startup you should mount a volume at `/data`.
+### - Parameters
 
-> *The [Quickstart](#quickstart) command already mounts a volume for persistence.*
+Container images are configured using parameters passed at runtime (such as those above). 
 
-SELinux users should update the security context of the host mountpoint so that it plays nicely with Docker:
-
-```bash
-mkdir -p /srv/docker/bind
-chcon -Rt svirt_sandbox_file_t /srv/docker/bind
-```
-
-## Reverse Proxying
-
-If you need to run Webmin behind a reverse-proxy such as Nginx, you can tweak the following environment variables:
-
-* `WEBMIN_INIT_SSL_ENABLED`: If Webmin should be served via SSL or not. Defaults to `true`. 
-   If you do the SSL termination at an earlier stage, set this to false.
-
-* `WEBMIN_INIT_REDIRECT_PORT`: The port Webmin is served from. 
-   Set this to your reverse proxy port, such as `443`. Defaults to `10000`.
-
-* `WEBMIN_INIT_REFERERS`: Sets the allowed referrers to Webmin. 
-   Set this to your domain name of the reverse proxy. Example: `mywebmin.example.com`. 
-   Defaults to empty (no referrer).
-
-## Shell Access
-
-For debugging and maintenance purposes you may want access the containers shell. If you are using Docker version `1.3.0` or higher you can access a running containers shell by starting `bash` using `docker exec`:
-
-```bash
-docker exec -it bind bash
-```
+| Parameter | Function |
+| :----: | --- |
+| `-p 53:53/tcp` `-p 53:53/udp` | DNS TCP/UDP port|
+| `-p 10000/tcp` | Webmin port |
+| `-e WEBMIN_ENABLED=true` | Enable/Disable Webmin (true/false) |
+| `-e ROOT_PASSWORD=password` | Set a password for Webmin root. Parameter has no effect when the launch of Webmin is disabled.  |
+| `-e WEBMIN_INIT_SSL_ENABLED=false` | Enable/Disable Webmin SSL (true/false). If Webmin should be served via SSL or not. Defaults to `true`. |
+| `-e WEBMIN_INIT_REFERERS` | Enable/Disable Webmin SSL (true/false). Sets the allowed referrers to Webmin. Set this to your domain name of the reverse proxy. Example: `mywebmin.example.com`. Defaults to empty (no referrer)|
+| `-e WEBMIN_INIT_REDIRECT_PORT` | The port Webmin is served from. Set this to your reverse proxy port, such as `443`. Defaults to `10000`. |
+| `-v /data` | Mount data directory for persistent config  |
+| `-e TZ=Europe/London` | Specify a timezone to use e.g. Europe/London |
