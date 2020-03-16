@@ -1,0 +1,35 @@
+name: Docker Build BK
+on:
+  push:
+    branches: 
+      - bk
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PWD: ${{ secrets.DOCKER_PWD }}
+      run: |
+         docker login -u $DOCKER_USER -p $DOCKER_PWD
+    - uses: rlespinasse/github-slug-action@master
+    - name: Print slug variables
+      run: |
+        echo ${{ env.GITHUB_REF_SLUG }}
+        echo ${{ env.GITHUB_SHA_SHORT }}
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        version: latest
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Buildx Build & Push image
+      run: |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64,linux/arm/v7 \
+        --tag eafxx/bind:bk \
+        --push . \
+        --file ./Dockerfile-u19
