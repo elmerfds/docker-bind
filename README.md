@@ -77,7 +77,7 @@ Docker Compose
             - "53:53/udp"
             - 10000:10000/tcp
         volumes:
-            - ${DOCKER_DATA}/bind/data:/data
+            - /path/to/bind/data:/data
         environment:
             - WEBMIN_ENABLED=true
             - WEBMIN_INIT_SSL_ENABLED=false
@@ -104,3 +104,4 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e WEBMIN_INIT_REDIRECT_PORT` | The port Webmin is served from. Set this to your reverse proxy port, such as `443`. Defaults to `10000`. |
 | `-v /data` | Mount data directory for persistent config  |
 | `-e TZ=Europe/London` | Specify a timezone to use e.g. Europe/London |
+
