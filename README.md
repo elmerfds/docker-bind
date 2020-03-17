@@ -85,7 +85,7 @@ Docker Compose
             - WEBMIN_INIT_SSL_ENABLED=false
             - WEBMIN_INIT_REFERERS=dns.domain.com
             - WEBMIN_INIT_REDIRECT_PORT=10000
-            - ROOT_PASSWORD=p@ssw0rd
+            - ROOT_PASSWORD=password
             - TZ=Europe/London
 ```
 
