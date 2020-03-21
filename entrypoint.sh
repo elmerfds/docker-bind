@@ -76,6 +76,14 @@ enable_webmin_ssl() {
   sed -i 's/ssl=0/ssl=1/g' /etc/webmin/miniserv.conf
 }
 
+bind_querylog() {
+    if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
+      rndc querylog off
+    elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
+      rndc querylog on
+    fi    
+}
+
 set_webmin_redirect_port() {
   webmin_redirect_port_var_exists=$(grep -q "redirect_port" "/etc/webmin/miniserv.conf" ; echo $?)
   if [ "$webmin_redirect_port_var_exists" == "1" ] 
@@ -112,11 +120,6 @@ create_bind_cache_dir() {
 
 first_init() {
     set_webmin_redirect_port
-    if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
-      rndc querylog off
-    elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
-      rndc querylog on
-    fi     
     if [ "${WEBMIN_INIT_SSL_ENABLED}" == "false" ]; then
       disable_webmin_ssl
     elif [ "${WEBMIN_INIT_SSL_ENABLED}" == "true" ]; then
@@ -153,6 +156,7 @@ if [[ -z ${1} ]]; then
     create_webmin_data_dir
     first_init
     set_root_passwd
+    bind_querylog
     echo "Starting webmin..."
     /etc/init.d/webmin start
   fi
