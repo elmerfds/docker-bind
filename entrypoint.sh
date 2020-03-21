@@ -78,9 +78,9 @@ enable_webmin_ssl() {
 
 bind_querylog() {
     if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
-      rndc querylog off
+      runuser -l root -c 'rndc querylog off'
     elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
-      rndc querylog on
+      runuser -l root -c 'rndc querylog on'
     fi    
 }
 
