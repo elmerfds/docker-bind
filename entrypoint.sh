@@ -78,9 +78,9 @@ enable_webmin_ssl() {
 
 bind_querylog() {
     if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
-      runuser -l root -c 'rndc querylog off'
+      rndc querylog off
     elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
-      runuser -l root -c 'rndc querylog on'
+      rndc querylog on
     fi    
 }
 
@@ -140,7 +140,6 @@ first_init() {
 create_pid_dir
 create_bind_data_dir
 create_bind_cache_dir
-bind_querylog
 
 # allow arguments to be passed to named
 if [[ ${1:0:1} = '-' ]]; then
@@ -163,6 +162,7 @@ if [[ -z ${1} ]]; then
 
   echo "Starting named..."
   exec $(which named) -u ${BIND_USER} -g ${EXTRA_ARGS}
+  bind_querylog
 else
   exec "$@"
 fi
