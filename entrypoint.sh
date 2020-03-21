@@ -140,6 +140,7 @@ first_init() {
 create_pid_dir
 create_bind_data_dir
 create_bind_cache_dir
+bind_querylog
 
 # allow arguments to be passed to named
 if [[ ${1:0:1} = '-' ]]; then
@@ -162,7 +163,6 @@ if [[ -z ${1} ]]; then
 
   echo "Starting named..."
   exec $(which named) -u ${BIND_USER} -g ${EXTRA_ARGS}
-  bind_querylog
 else
   exec "$@"
 fi
