@@ -26,6 +26,7 @@ file_env() {
 file_env 'ROOT_PASSWORD'
 
 ROOT_PASSWORD=${ROOT_PASSWORD:-password}
+BIND_QUERYLOG_ENABLED=${BIND_QUERYLOG_ENABLED:-false}
 WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
 WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
@@ -111,6 +112,11 @@ create_bind_cache_dir() {
 
 first_init() {
     set_webmin_redirect_port
+    if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
+      rndc querylog off
+    elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
+      rndc querylog on
+    fi     
     if [ "${WEBMIN_INIT_SSL_ENABLED}" == "false" ]; then
       disable_webmin_ssl
     elif [ "${WEBMIN_INIT_SSL_ENABLED}" == "true" ]; then
