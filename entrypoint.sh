@@ -156,13 +156,13 @@ if [[ -z ${1} ]]; then
     create_webmin_data_dir
     first_init
     set_root_passwd
-    bind_querylog
     echo "Starting webmin..."
     /etc/init.d/webmin start
   fi
 
   echo "Starting named..."
   exec $(which named) -u ${BIND_USER} -g ${EXTRA_ARGS}
+  bind_querylog
 else
   exec "$@"
 fi
