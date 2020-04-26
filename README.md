@@ -1,6 +1,6 @@
-# eafxx/bind
+# [eafxx/bind](https://hub.docker.com/r/eafxx/bind)
 
-A fork of [sameersbn/bind](https://github.com/sameersbn/docker-bind) repo, how does it defer?
+A fork of [sameersbn/bind](https://github.com/sameersbn/docker-bind) repo, what's different?
 - Multiarch Support: 
   * amd64
   * armv7, arm64 i.e. supports RPi 3/4
