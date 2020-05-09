@@ -11,7 +11,6 @@ on:
     types: [run-build-exp]     
 jobs:
   pre-checks:
-    if: github.event.action == 'pre-checks'
     name: 1. Pre-build Lint Checks
     runs-on: ubuntu-latest
     steps:   
