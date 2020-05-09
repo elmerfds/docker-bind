@@ -7,8 +7,8 @@ on:
       - '.actionspanel/*'   
     branches: 
       - master
-  repository_dispatch:
-    types: [run-build-exp]     
+  # repository_dispatch:
+  #   types: [run-build-exp]     
 jobs:
   pre-checks:
     if: github.event.action == 'pre-checks'
