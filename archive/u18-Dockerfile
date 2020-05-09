@@ -1,3 +1,4 @@
+# hadolint ignore=DL3007
 FROM ubuntu:bionic AS add-apt-repositories
 
 RUN apt-get update \
