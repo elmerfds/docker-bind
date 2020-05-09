@@ -17,7 +17,7 @@ ENV BIND_USER=bind \
     WEBMIN_VERSION=1.941 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED= \
-    TZ=
+    TZ=""
 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
