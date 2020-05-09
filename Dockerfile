@@ -1,5 +1,4 @@
 FROM eafxx/ubuntu-base:eoan AS add-apt-repositories
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -20,7 +19,6 @@ ENV BIND_USER=bind \
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
