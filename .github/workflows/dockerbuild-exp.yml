@@ -6,9 +6,9 @@ on:
       - '.github/workflows/*'
       - '.actionspanel/*'   
     branches: 
-      - master
-  # repository_dispatch:
-  #   types: [run-build-exp]     
+      - exp
+  repository_dispatch:
+    types: [run-build-exp]     
 jobs:
   pre-checks:
     if: github.event.action == 'pre-checks'
