@@ -1,7 +1,6 @@
 FROM eafxx/ubuntu-base:eoan AS add-apt-repositories
 
-RUN apt-get update \
- && apt-get upgrade -y \
+RUN apt-get update -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
  && apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
