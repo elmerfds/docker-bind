@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2086
+# shellcheck disable=SC2086,SC2174,SC2124
 set -e
 
 # usage: file_env VAR [DEFAULT]
@@ -162,7 +162,7 @@ if [[ -z ${1} ]]; then
   fi
 
   echo "Starting named..."
-  exec $(type -p named) -u "${BIND_USER}" -g "${EXTRA_ARGS}" && \
+  exec "$(type -p named)" -u "${BIND_USER}" -g "${EXTRA_ARGS}" && \
   bind_querylog
 else
   exec "$@"
