@@ -31,7 +31,7 @@ jobs:
     - name: Buildx Build & Push image
       run: |
         docker buildx build \
-        --platform linux/amd64,linux/arm64,linux/arm/v7 \
+        --platform linux/amd64,linux/arm64 \
         --tag eafxx/bind:exp \
         --push . \
         --file ./Dockerfile
