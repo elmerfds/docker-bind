@@ -1,11 +1,12 @@
-FROM eafxx/ubuntu-base:eoan AS add-apt-repositories
+FROM eafxx/ubuntu-base:bionic AS add-apt-repositories
 
-RUN apt-get update -y \
+RUN apt-get update \
+ && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
  && apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM eafxx/ubuntu-base:eoan
+FROM eafxx/ubuntu-base:bionic
 
 LABEL maintainer="eafxx"
 
