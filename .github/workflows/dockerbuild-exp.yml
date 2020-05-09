@@ -28,7 +28,7 @@ jobs:
         dockerlabelvalidate: 'yes'   
   buildx:
     name: 2. Buildx Multiarch Job
-    #needs: pre-checks   
+    needs: pre-checks   
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -49,10 +49,10 @@ jobs:
         qemu-version: latest
     - name: Available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
-    - name: Build-Push Bionic Image
-      run: |
-        docker buildx build \
-        --platform linux/amd64,linux/arm64,linux/arm/v7 \
-        --tag ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:exp \
-        --push . \
-        --file ./Dockerfile
+    # - name: Build-Push Bionic Image
+    #   run: |
+    #     docker buildx build \
+    #     --platform linux/amd64,linux/arm64,linux/arm/v7 \
+    #     --tag ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:exp \
+    #     --push . \
+    #     --file ./Dockerfile
