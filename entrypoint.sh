@@ -162,8 +162,7 @@ if [[ -z ${1} ]]; then
   fi
 
   echo "Starting named..."
-  exec "$(type -p named)" -u "${BIND_USER}" -g "${EXTRA_ARGS}" && \
-  bind_querylog
+  exec "$(type -p named)" -u "${BIND_USER}" -g "${EXTRA_ARGS}"
 else
   exec "$@"
 fi
