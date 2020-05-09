@@ -27,7 +27,6 @@ file_env() {
 file_env 'ROOT_PASSWORD'
 
 ROOT_PASSWORD=${ROOT_PASSWORD:-password}
-BIND_QUERYLOG_ENABLED=${BIND_QUERYLOG_ENABLED:-false}
 WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
 WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
@@ -75,14 +74,6 @@ disable_webmin_ssl() {
 
 enable_webmin_ssl() {
   sed -i 's/ssl=0/ssl=1/g' /etc/webmin/miniserv.conf
-}
-
-bind_querylog() {
-    if [ "${BIND_QUERYLOG_ENABLED}" == "false" ]; then
-      rndc querylog off
-    elif [ "${BIND_QUERYLOG_ENABLED}" == "true" ]; then
-      rndc querylog on
-    fi    
 }
 
 set_webmin_redirect_port() {
@@ -163,7 +154,6 @@ if [[ -z ${1} ]]; then
 
   echo "Starting named..."
   exec "$(type -p named)" -u ${BIND_USER} -g ${EXTRA_ARGS} && \
-  bind_querylog
 else
   exec "$@"
 fi
