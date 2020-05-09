@@ -1,4 +1,4 @@
-FROM ubuntu:eoan AS add-apt-repositories
+FROM eafxx/ubuntu-base:eoan AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
