@@ -2,14 +2,13 @@ name: Docker Build Exp
 on:
   push:
     paths-ignore:
-      - 'README.md'
-      - 'eoan.Dockerfile'      
+      - 'README.md'   
       - '.github/workflows/*'
       - '.actionspanel/*'   
     branches: 
       - master
   repository_dispatch:
-    types: [run-build-bionic]     
+    types: [run-build-exp]     
 jobs:
   # pre-checks:
   #   if: github.event.action == 'pre-checks'
