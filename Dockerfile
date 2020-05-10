@@ -23,9 +23,9 @@ COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3018,DL3003,DL3008,SC2086  
-RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
+RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     tzdata \
     bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
     webmin=${WEBMIN_VERSION}* && \
