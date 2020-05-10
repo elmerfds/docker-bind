@@ -38,8 +38,8 @@ WEBMIN_DATA_DIR=${DATA_DIR}/webmin
 
 create_bind_data_dir() {
   mkdir -p "${BIND_DATA_DIR}"
-  mkdir -p "${BIND_DATA_DIR}"/logs
-  touch "${BIND_DATA_DIR}"/logs/named.log
+  mkdir -p "${BIND_DATA_DIR}"/etc/logs
+  touch "${BIND_DATA_DIR}"/etc/logs/named.log
 
   # populate default bind configuration if it does not exist
   if [ ! -d "${BIND_DATA_DIR}"/etc ]; then
