@@ -17,10 +17,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.client_payload.branch }}
-    - name: Bash Lint check
-      uses: azohra/shell-linter@v0.3.0
-      with: 
-        severity: "error"
     - name: Dockerfile Lint   
       uses: ghe-actions/dockerfile-validator@v1.6
       with:
