@@ -1,8 +1,11 @@
+# hadolint ignore=DL3007
 FROM ubuntu:eoan AS add-apt-repositories
 
+SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
+# hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
  && apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
@@ -22,7 +25,7 @@ COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
       webmin=${WEBMIN_VERSION}* \
