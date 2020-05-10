@@ -149,14 +149,16 @@ if [[ -z ${1} ]]; then
     create_webmin_data_dir
     first_init
     set_root_passwd
-    echo "Starting webmin..."
+    echo '---------------------'
+    echo '|  Starting Webmin  |'
+    echo '---------------------'
     /etc/init.d/webmin start
   fi
-echo
-echo '---------------------'
-echo '| Starting Statping |'
-echo '---------------------'
-echo
+  echo
+  echo '---------------------'
+  echo '| Starting Statping |'
+  echo '---------------------'
+  echo
   s6-setuidgid abc "$(type -p named)" -u ${BIND_USER} -g ${EXTRA_ARGS} && \
 else
   s6-setuidgid abc "$@"
