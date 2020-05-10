@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2174,SC2086
 set -e
 
 # usage: file_env VAR [DEFAULT]
