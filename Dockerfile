@@ -31,12 +31,13 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
       webmin=${WEBMIN_VERSION}* \
  && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /sbin/entrypoint.sh
+#COPY entrypoint.sh /sbin/entrypoint.sh
+COPY root/ /
 
-RUN chmod 755 /sbin/entrypoint.sh
+#RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 53/udp 53/tcp 10000/tcp
 
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+#ENTRYPOINT ["/sbin/entrypoint.sh"]
 
-CMD ["/usr/sbin/named"]
+#CMD ["/usr/sbin/named"]
