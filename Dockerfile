@@ -7,18 +7,16 @@ RUN apt-get update \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:eoan
-
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.11.5 \
     WEBMIN_VERSION=1.941 \
     DATA_DIR=/data \
-    WEBMIN_INIT_SSL_ENABLED= \
-    TZ=
+    WEBMIN_INIT_SSL_ENABLED="" \
+    TZ=""
 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
