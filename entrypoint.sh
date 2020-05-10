@@ -162,7 +162,7 @@ if [[ -z ${1} ]]; then
   echo '|  Starting named   |'
   echo '---------------------'
   echo
-  exec "$(type -p named)" -u ${BIND_USER} ${EXTRA_FLAGS} -c /etc/bind/logs/named.log ${EXTRA_ARGS}
+  exec "$(type -p named)" -u ${BIND_USER} ${EXTRA_FLAGS} -c /etc/bind/named.conf ${EXTRA_ARGS}
 else
   exec "$@"
 fi
