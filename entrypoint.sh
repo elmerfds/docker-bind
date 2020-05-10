@@ -38,6 +38,8 @@ WEBMIN_DATA_DIR=${DATA_DIR}/webmin
 
 create_bind_data_dir() {
   mkdir -p "${BIND_DATA_DIR}"
+  mkdir -p "${BIND_DATA_DIR}"\logs
+  touch "${BIND_DATA_DIR}"\logs\named.log
 
   # populate default bind configuration if it does not exist
   if [ ! -d "${BIND_DATA_DIR}"/etc ]; then
@@ -160,7 +162,7 @@ if [[ -z ${1} ]]; then
   echo '|  Starting named   |'
   echo '---------------------'
   echo
-  exec "$(type -p named)" -u ${BIND_USER} ${EXTRA_FLAGS} -c /etc/bind/named.conf ${EXTRA_ARGS}
+  exec "$(type -p named)" -u ${BIND_USER} ${EXTRA_FLAGS} -c /var/log/named/named.log ${EXTRA_ARGS}
 else
   exec "$@"
 fi
