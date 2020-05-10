@@ -27,7 +27,7 @@ file_env() {
 file_env 'ROOT_PASSWORD'
 
 ROOT_PASSWORD=${ROOT_PASSWORD:-password}
-BIND_QUERYLOG_ENABLED=${BIND_QUERYLOG_ENABLED:-false}
+EXTRA_FLAGS=${EXTRA_FLAGS:--f}
 WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
 WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
@@ -160,7 +160,7 @@ if [[ -z ${1} ]]; then
   echo '|  Starting named   |'
   echo '---------------------'
   echo
-  exec "$(type -p named)" -u ${BIND_USER} -g ${EXTRA_ARGS}
+  exec "$(type -p named)" -u ${BIND_USER} ${EXTRA_FLAGS} -c /etc/bind/named.conf ${EXTRA_ARGS}
 else
   exec "$@"
 fi
