@@ -9,7 +9,7 @@ RUN apt-get update \
  && apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:eoan
+FROM ubuntu:eoan-20200410
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
