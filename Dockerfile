@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007
-FROM ubuntu:eoan AS add-apt-repositories
+FROM ubuntu:eoan-20200410 AS add-apt-repositories
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
