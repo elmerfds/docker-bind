@@ -31,7 +31,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
  && rm -rf /var/lib/apt/lists/* \
  && dpkg -i /tmp/webmin-current.deb \
- && sudo apt-get install -f
+ && apt-get install -f
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
