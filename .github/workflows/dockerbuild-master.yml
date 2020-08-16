@@ -4,13 +4,12 @@ on:
     paths-ignore:
       - 'README.md'   
       - '.github/workflows/*'
-      - '.actionspanel/*'   
+      - 'Dockerfile'   
     branches: 
       - master
   schedule:
     - cron: '00 0 * * 6'      
-  repository_dispatch:
-    types: [run-build-master]     
+  workflow_dispatch:     
 jobs:
   pre-checks:
     name: 1. Pre-build Lint Checks

@@ -4,11 +4,10 @@ on:
     paths-ignore:
       - 'README.md'   
       - '.github/workflows/*'
-      - '.actionspanel/*'   
+      - 'Dockerfile'   
     branches: 
       - dev
-  repository_dispatch:
-    types: [run-build-dev]     
+  workflow_dispatch:   
 jobs:
   pre-checks:
     name: 1. Pre-build Lint Checks
