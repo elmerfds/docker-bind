@@ -7,8 +7,7 @@ on:
       - '.actionspanel/*'   
     branches: 
       - exp
-  repository_dispatch:
-    types: [run-build-exp]     
+  workflow_dispatch:     
 jobs:
   pre-checks:
     name: 1. Pre-build Lint Checks
