@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007
-FROM ubuntu:eoan AS add-apt-repositories
+FROM ubuntu:eoan AS add-webmin-package
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
@@ -18,8 +18,7 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""
 
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /tmp/webmin-current.deb /tmp/webmin-current.deb
+COPY --from=add-webmin-package /tmp/webmin-current.deb /tmp/webmin-current.deb
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
