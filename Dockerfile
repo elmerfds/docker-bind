@@ -27,6 +27,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tzdata \
+      perl \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
  && rm -rf /var/lib/apt/lists/* \
  && dpkg -i /tmp/webmin-current.deb
