@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg wget \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg \
  && wget http://www.webmin.com/download/deb/webmin-current.deb -O /tmp/webmin-current.deb
 
 FROM ubuntu:eoan
