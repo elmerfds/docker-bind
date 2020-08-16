@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends wget \
- && wget http://www.webmin.com/download/deb/webmin-current.deb -O /tmp/webmin-current.deb
+ && wget --no-check-certificate http://www.webmin.com/download/deb/webmin-current.deb -O /tmp/webmin-current.deb
 
 FROM ubuntu:eoan
 LABEL maintainer="eafxx"
