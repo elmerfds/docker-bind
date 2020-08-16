@@ -4,7 +4,7 @@ on:
     paths-ignore:
       - 'README.md'   
       - '.github/workflows/*'
-      - '.actionspanel/*'   
+      - 'Dockerfile'   
     branches: 
       - dev
   workflow_dispatch:   
