@@ -19,6 +19,12 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""
 
+SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
+# hadolint ignore=DL3005,DL3008,DL3008 
+RUN  && apt-get update \
+ && apt-get upgrade -y \
+ && apt-get install ca-certificates 
+
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg.d /etc/apt/trusted.gpg.d
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
@@ -27,9 +33,6 @@ COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
- && apt-get install ca-certificates \
- && apt-get update \
- && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
