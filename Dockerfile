@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg apt-transport-https \
  && apt-key adv --fetch-keys https://download.webmin.com/jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
