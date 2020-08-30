@@ -5,9 +5,8 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg ca-certificates apt-transport-https wget \
- && wget https://download.webmin.com/jcameron-key.asc --no-check-certificate \
- && apt-key add jcameron-key.asc \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
+ && wget -qO - https://download.webmin.com/jcameron-key.asc | apt-key add - \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:eoan
@@ -21,6 +20,7 @@ ENV BIND_USER=bind \
     TZ=""
 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
+COPY --from=add-apt-repositories /etc/apt/trusted.gpg.d /etc/apt/trusted.gpg.d
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
@@ -29,7 +29,6 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      ca-certificates \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
       webmin=${WEBMIN_VERSION}* \
