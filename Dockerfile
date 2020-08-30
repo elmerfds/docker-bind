@@ -7,7 +7,8 @@ RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg apt-transport-https \
  && apt-key adv --fetch-keys https://download.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
+ && ls /etc/apt
 
 FROM ubuntu:eoan
 LABEL maintainer="eafxx"
@@ -19,7 +20,7 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""
 
-#COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
+COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
