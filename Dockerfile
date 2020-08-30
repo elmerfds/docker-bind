@@ -19,7 +19,7 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""
 
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
+#COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
