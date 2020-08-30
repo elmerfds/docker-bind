@@ -21,7 +21,7 @@ ENV BIND_USER=bind \
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
-RUN  && apt-get update \
+RUN  apt-get update \
  && apt-get upgrade -y \
  && apt-get install ca-certificates 
 
