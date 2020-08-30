@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg wget ca-certificates \
- && wget --no-check-certificate -qO - https://download.webmin.com/jcameron-key.asc | apt-key add - \
+ && wget -qO - https://download.webmin.com/jcameron-key.asc | apt-key add - \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:eoan
