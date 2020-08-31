@@ -24,8 +24,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN  apt-get update \
  && apt-get upgrade -y \
- && apt-transport-https \
- && apt-get install -y --no-install-recommends ca-certificates \
+ && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
