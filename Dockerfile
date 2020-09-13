@@ -10,8 +10,8 @@ RUN apt-get update \
  && apt-key add jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:eoan
-LABEL maintainer="eafxx"
+# FROM ubuntu:eoan
+# LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.11.5 \
@@ -20,8 +20,8 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""
 
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
+# COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
+# COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
