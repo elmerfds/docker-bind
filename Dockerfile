@@ -1,16 +1,4 @@
 # hadolint ignore=DL3007
-FROM ubuntu:eoan AS add-apt-repositories
-
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
-RUN apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 ca-certificates \
- && wget --no-check-certificate https://download.webmin.com/jcameron-key.asc \
- && apt-key add jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
- && rm -rf /var/lib/apt/lists/*
-
 FROM ubuntu:eoan
 LABEL maintainer="eafxx"
 
@@ -23,13 +11,13 @@ ENV BIND_USER=bind \
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
-RUN  apt-get update \
+RUN apt-get update \
  && apt-get upgrade -y \
- && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
- && rm -rf /var/lib/apt/lists/*    
-
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 ca-certificates \
+ && wget https://download.webmin.com/jcameron-key.asc \
+ && apt-key add jcameron-key.asc \
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
+ && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
