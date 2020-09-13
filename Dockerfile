@@ -13,9 +13,9 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl gnupg2 \
  && apt-get install -y --no-install-recommends --reinstall ca-certificates \
- && wget https://download.webmin.com/jcameron-key.asc \
+ && curl https://download.webmin.com/jcameron-key.asc -o jcameron-key.asc \
  && apt-key add jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && rm -rf /var/lib/apt/lists/*
