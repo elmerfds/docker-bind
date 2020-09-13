@@ -5,10 +5,10 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl \
- && curl -sSL 'https://www.webmin.com/jcameron-key.asc' \
- && apt-key add - \
- && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget \
+ && wget https://download.webmin.com/jcameron-key.asc \
+ && apt-key add jcameron-key.asc \
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:eoan
 LABEL maintainer="eafxx"
@@ -29,6 +29,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      apt-transport-https \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
       webmin=${WEBMIN_VERSION}* \
