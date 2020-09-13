@@ -8,7 +8,8 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 \
  && wget --no-check-certificate https://download.webmin.com/jcameron-key.asc \
  && apt-key add jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
+ && rm -rf /var/lib/apt/lists/*
 
 # FROM ubuntu:eoan
 # LABEL maintainer="eafxx"
