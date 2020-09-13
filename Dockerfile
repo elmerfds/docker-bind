@@ -11,8 +11,8 @@ RUN apt-get update \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && rm -rf /var/lib/apt/lists/*
 
-# FROM ubuntu:eoan
-# LABEL maintainer="eafxx"
+FROM ubuntu:eoan
+LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.11.5 \
