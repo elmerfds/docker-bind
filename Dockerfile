@@ -14,7 +14,7 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 apt-transport-https ca-certificates \
- && wget https://download.webmin.com/jcameron-key.asc \
+ && wget https://download.webmin.com/jcameron-key.asc --ca-directory=/usr/local/ssl/certs \
  && apt-key add jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && rm -rf /var/lib/apt/lists/*
