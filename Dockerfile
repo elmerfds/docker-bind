@@ -13,11 +13,9 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 apt-transport-https ca-certificates perl \
- && update-ca-certificates --fresh \
- && wget https://download.webmin.com/jcameron-key.asc --ca-directory=/etc/ssl/certs/ \
- && apt-key add jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 apt-transport-https ca-certificates \
+ && wget http://prdownloads.sourceforge.net/webadmin/webmin_1.955_all.deb \
+ && dpkg --install webmin_1.955_all.deb \
  && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
