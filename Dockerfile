@@ -1,9 +1,9 @@
 # hadolint ignore=DL3007
-FROM ubuntu:focal
+FROM ubuntu:groovy
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.16.1 \
+    BIND_VERSION=9.16.6 \
     WEBMIN_VERSION=1.955 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
