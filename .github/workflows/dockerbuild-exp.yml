@@ -9,21 +9,21 @@ on:
       - exp
   workflow_dispatch:     
 jobs:
-  pre-checks:
-    name: 1. Pre-build Lint Checks
-    runs-on: ubuntu-latest
-    steps:   
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.client_payload.branch }}
-    - name: Bash Lint check
-      uses: azohra/shell-linter@v0.3.0        
-    - name: Dockerfile Lint   
-      uses: ghe-actions/dockerfile-validator@v1.6
-      with:
-        dockerfile: 'Dockerfile'
-        lint: 'hadolint'
-        dockerlabelvalidate: 'yes'   
+  # pre-checks:
+  #   name: 1. Pre-build Lint Checks
+  #   runs-on: ubuntu-latest
+  #   steps:   
+  #   - uses: actions/checkout@v2
+  #     with:
+  #       ref: ${{ github.event.client_payload.branch }}
+  #   - name: Bash Lint check
+  #     uses: azohra/shell-linter@v0.3.0        
+  #   - name: Dockerfile Lint   
+  #     uses: ghe-actions/dockerfile-validator@v1.6
+  #     with:
+  #       dockerfile: 'Dockerfile'
+  #       lint: 'hadolint'
+  #       dockerlabelvalidate: 'yes'   
   buildx:
     name: 2. Buildx Multiarch Job
     needs: pre-checks   
