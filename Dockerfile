@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007
-FROM ubuntu:eoan
+FROM ubuntu:focal
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
