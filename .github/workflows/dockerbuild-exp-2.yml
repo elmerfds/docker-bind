@@ -39,9 +39,13 @@ jobs:
       run: |
         echo ${{ env.GITHUB_REF_SLUG }}
         echo ${{ env.GITHUB_SHA_SHORT }}
-    - name: Buildx Env Creation
+      # https://github.com/docker/setup-qemu-action
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1        
+      # https://github.com/docker/setup-buildx-action
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1    
       id: buildx
-      uses: crazy-max/ghaction-docker-buildx@v1
       with:
         buildx-version: latest
         qemu-version: latest
