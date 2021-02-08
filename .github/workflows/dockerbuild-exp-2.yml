@@ -1,0 +1,56 @@
+name: Docker Build Exp-2
+on:
+  push:
+    paths-ignore:
+      - 'README.md'   
+      - '.github/workflows/*'
+      - 'Dockerfile'   
+    branches: 
+      - exp-2
+  workflow_dispatch:     
+jobs:
+  pre-checks:
+    name: 1. Pre-build Lint Checks
+    runs-on: ubuntu-latest
+    steps:   
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.client_payload.branch }}
+    - name: Bash Lint check
+      uses: azohra/shell-linter@v0.3.0        
+    - name: Dockerfile Lint   
+      uses: ghe-actions/dockerfile-validator@v1.6
+      with:
+        dockerfile: 'Dockerfile'
+        lint: 'hadolint'
+        dockerlabelvalidate: 'yes'   
+  buildx:
+    name: 2. Buildx Multiarch Job
+    needs: pre-checks   
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.client_payload.branch }}       
+    - name: Dockerhub login
+      run: echo "${{ secrets.DOCKER_PWD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+    - uses: rlespinasse/github-slug-action@v2.x
+    - name: Print slug variables
+      run: |
+        echo ${{ env.GITHUB_REF_SLUG }}
+        echo ${{ env.GITHUB_SHA_SHORT }}
+    - name: Buildx Env Creation
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        buildx-version: latest
+        qemu-version: latest
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Build-Push Image
+      run: |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64,linux/arm/v7 \
+        --tag ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:exp-2 \
+        --push . \
+        --file ./Dockerfile
