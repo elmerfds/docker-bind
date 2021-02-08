@@ -12,7 +12,7 @@ ENV BIND_USER=bind \
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3005,DL3008,DL3008
-RUN apt-get update \
+RUN apt-get update -qq -y \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends \
         wget \
@@ -20,24 +20,9 @@ RUN apt-get update \
         apt-transport-https \
         ca-certificates \
         software-properties-common \
+        lsb_release \
  && rm -rf /var/lib/apt/lists/*
 
-# hadolint ignore=DL3005,DL3008,DL3008 
-RUN  echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
- && wget https://download.webmin.com/jcameron-key.asc  \
- && apt-key add jcameron-key.asc \
- && rm -rf /var/lib/apt/lists/*
-
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
-RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
- && apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      tzdata \
-      bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
-      webmin=${WEBMIN_VERSION}* \
- && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
