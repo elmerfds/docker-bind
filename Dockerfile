@@ -1,31 +1,30 @@
-# hadolint ignore=DL3007
-FROM ubuntu:eoan
-LABEL maintainer="eafxx"
+FROM ubuntu:focal-20200423 AS add-apt-repositories
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
+ && apt-get install -y curl \
+ && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
+ && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+
+FROM ubuntu:focal-20200423
+
+LABEL maintainer="sameer@damagehead.com"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.11.5 \
-    WEBMIN_VERSION=1.960 \
-    DATA_DIR=/data \
-    WEBMIN_INIT_SSL_ENABLED="" \
-    TZ=""
+    BIND_VERSION=9.16.1 \
+    WEBMIN_VERSION=1.941 \
+    DATA_DIR=/data
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget gnupg2 apt-transport-https ca-certificates \
- && wget https://download.webmin.com/jcameron-key.asc --ca-directory=/etc/ssl/certs/ \
- && apt-key add jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
- && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y curl
+ 
+COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
+COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
+
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      tzdata \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
       webmin=${WEBMIN_VERSION}* \
  && rm -rf /var/lib/apt/lists/*
