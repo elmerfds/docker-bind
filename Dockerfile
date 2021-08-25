@@ -7,7 +7,7 @@ RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:eoan
 LABEL maintainer="eafxx"
