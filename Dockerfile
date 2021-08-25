@@ -12,7 +12,7 @@ LABEL maintainer="sameer@damagehead.com"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.16.1 \
-    WEBMIN_VERSION=1.941 \
+    WEBMIN_VERSION=1.980 \
     DATA_DIR=/data
 
 RUN apt-get update \
