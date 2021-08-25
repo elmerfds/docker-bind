@@ -26,7 +26,7 @@ jobs:
   #       dockerlabelvalidate: 'yes'   
   buildx:
     name: 2. Buildx Multiarch Job
-    needs: pre-checks   
+    #needs: pre-checks   
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
