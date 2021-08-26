@@ -1,34 +1,29 @@
-# hadolint ignore=DL3007
-FROM ubuntu:eoan AS add-apt-repositories
+FROM ubuntu:focal AS add-apt-repositories
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
 RUN apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg curl \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
+ && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:eoan
+FROM ubuntu:focal
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.11.5 \
+    BIND_VERSION=9.16.1 \
     WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
-    TZ=""
+    TZ=""    
 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
+COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list    
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      curl \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
       webmin=${WEBMIN_VERSION}* \
