@@ -1,22 +1,28 @@
 FROM ubuntu:focal-20200423 AS add-apt-repositories
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
+ && apt-get upgrade -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:focal-20200423
-
-LABEL maintainer="sameer@damagehead.com"
+LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.16.1 \
     WEBMIN_VERSION=1.980 \
-    DATA_DIR=/data
+    DATA_DIR=/data \
+    WEBMIN_INIT_SSL_ENABLED="" \
+    TZ=""    
 
 RUN apt-get update \
- && apt-get install -y curl
+ && apt-get upgrade -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        tzdata \
+        bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
+        webmin=${WEBMIN_VERSION}* \    
  
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
