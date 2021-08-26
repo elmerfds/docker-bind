@@ -1,24 +1,26 @@
 FROM ubuntu:focal-20200423 AS add-apt-repositories
 
 RUN apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:focal-20200423
-LABEL maintainer="eafxx"
+
+LABEL maintainer="sameer@damagehead.com"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.16.1 \
     WEBMIN_VERSION=1.980 \
-    DATA_DIR=/data \
-    WEBMIN_INIT_SSL_ENABLED="" \
-    TZ=""    
+    DATA_DIR=/data
 
+RUN apt-get update \
+ && apt-get install -y curl
+ 
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list    
+
+COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
