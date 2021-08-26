@@ -22,7 +22,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         tzdata \
         bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
-        webmin=${WEBMIN_VERSION}* \    
+        webmin=${WEBMIN_VERSION}*    
  
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
