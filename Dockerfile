@@ -1,13 +1,13 @@
-FROM ubuntu:focal-20200423 AS add-apt-repositories
+FROM ubuntu:focal AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:focal-20200423
+FROM ubuntu:focal
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
