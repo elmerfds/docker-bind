@@ -23,7 +23,7 @@ jobs:
       with:
         dockerfile: 'Dockerfile'
         lint: 'hadolint'
-        dockerlabelvalidate: 'yes'   
+        dockerlabelvalidate: 'no'   
   buildx:
     name: 2. Buildx Multiarch Job
     needs: pre-checks   
