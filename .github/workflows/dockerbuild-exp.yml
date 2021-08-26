@@ -24,34 +24,34 @@ jobs:
         dockerfile: 'Dockerfile'
         lint: 'hadolint'
         dockerlabelvalidate: 'yes'   
-  buildx:
-    name: 2. Buildx Multiarch Job
-    #needs: pre-checks   
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.client_payload.branch }}       
-    - name: Dockerhub login
-      run: echo "${{ secrets.DOCKER_PWD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
-    - uses: rlespinasse/github-slug-action@v3.x
-    - name: Print slug variables
-      run: |
-        echo ${{ env.GITHUB_REF_SLUG }}
-        echo ${{ env.GITHUB_SHA_SHORT }}
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1             
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-      with:
-        version: latest
-    - name: Available platforms
-      run: echo ${{ steps.buildx.outputs.platforms }}
-    - name: Build-Push Image
-      run: |
-        docker buildx build \
-        --platform linux/amd64,linux/arm64 \
-        --tag ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:exp \
-        --push . \
-        --file ./Dockerfile
+  # buildx:
+  #   name: 2. Buildx Multiarch Job
+  #   #needs: pre-checks   
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #     with:
+  #       ref: ${{ github.event.client_payload.branch }}       
+  #   - name: Dockerhub login
+  #     run: echo "${{ secrets.DOCKER_PWD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+  #   - uses: rlespinasse/github-slug-action@v3.x
+  #   - name: Print slug variables
+  #     run: |
+  #       echo ${{ env.GITHUB_REF_SLUG }}
+  #       echo ${{ env.GITHUB_SHA_SHORT }}
+  #   - name: Set up QEMU
+  #     uses: docker/setup-qemu-action@v1             
+  #   - name: Set up Docker Buildx
+  #     id: buildx
+  #     uses: docker/setup-buildx-action@v1
+  #     with:
+  #       version: latest
+  #   - name: Available platforms
+  #     run: echo ${{ steps.buildx.outputs.platforms }}
+  #   - name: Build-Push Image
+  #     run: |
+  #       docker buildx build \
+  #       --platform linux/amd64,linux/arm64 \
+  #       --tag ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:exp \
+  #       --push . \
+  #       --file ./Dockerfile
