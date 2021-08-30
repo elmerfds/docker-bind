@@ -12,7 +12,7 @@ LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.16.1 \
-    WEBMIN_VERSION=1.980 \
+    #WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""    
@@ -33,7 +33,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tzdata \
       bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
-      webmin=${WEBMIN_VERSION}* \
+      webmin \
  && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
