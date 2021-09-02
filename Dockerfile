@@ -1,4 +1,4 @@
-FROM ubuntu:focal AS add-apt-repositories
+FROM ubuntu:eoan AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
@@ -7,7 +7,7 @@ RUN apt-get update \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:focal
+FROM ubuntu:eoan
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
