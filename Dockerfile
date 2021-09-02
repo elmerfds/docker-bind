@@ -5,7 +5,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:bionic
 LABEL maintainer="eafxx"
