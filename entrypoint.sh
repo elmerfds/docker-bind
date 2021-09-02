@@ -162,7 +162,7 @@ if [[ -z ${1} ]]; then
   echo '|  Starting named   |'
   echo '---------------------'
   echo
-  #exec "$(type -p named)" -u ${BIND_USER} ${BIND_EXTRA_FLAGS}
+  exec "$(type -p named)" -u ${BIND_USER} ${BIND_EXTRA_FLAGS}
 else
   exec "$@"
 fi
