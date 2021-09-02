@@ -11,7 +11,7 @@ FROM ubuntu:focal
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.16.1 \
+    BIND_VERSION=9.11.5 \
     #WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
