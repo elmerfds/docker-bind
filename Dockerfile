@@ -17,8 +17,6 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""    
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
 RUN  apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
@@ -31,7 +29,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ && apt-get install -y --no-install-recommends \
         tzdata \
         bind9 bind9utils bind9-doc dnsutils \
         webmin \
