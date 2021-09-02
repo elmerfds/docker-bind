@@ -1,4 +1,4 @@
-FROM ubuntu:hirsute AS add-apt-repositories
+FROM ubuntu:bionic AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
@@ -7,11 +7,11 @@ RUN apt-get update \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
  && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:hirsute
+FROM ubuntu:bionic
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.16.8 \
+    BIND_VERSION=9.11.3 \
     #WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
