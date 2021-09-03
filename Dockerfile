@@ -34,7 +34,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes
 ARG DEB_VERSION=1:9.16.20-2+ubuntu20.04.1+isc+1
 RUN add-apt-repository -y ppa:isc/bind
 RUN apt-get -qqqy update && apt-get -qqqy dist-upgrade && apt-get -qqqy install bind9=$DEB_VERSION bind9-utils=$DEB_VERSION
-RUN  && apt-get update \
+RUN apt-get update \
         apt-get install webmin tzdata \
     && rm -rf /var/lib/apt/lists/*
 
