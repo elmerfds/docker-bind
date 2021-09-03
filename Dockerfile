@@ -12,7 +12,7 @@ LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.11.3 \
-    #WEBMIN_VERSION=1.980 \
+    WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""    
