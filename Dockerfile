@@ -1,4 +1,4 @@
-FROM ubuntu:bionic AS add-apt-repositories
+FROM ubuntu:focal AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
@@ -7,10 +7,11 @@ RUN apt-get update \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:bionic
+FROM ubuntu:focal
 LABEL maintainer="eafxx"
 
-ENV BIND_USER=bind \
+ENV DEBIAN_FRONTEND noninteractive \
+    BIND_USER=bind \
     BIND_VERSION=9.11.3 \
     WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
@@ -25,16 +26,23 @@ RUN  apt-get update \
 COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list    
 
-RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
- && apt-get update \
- && apt-get upgrade -y \
- && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        tzdata \
-        bind9 bind9utils bind9-doc dnsutils \
-        webmin \
-        #webmin=${WEBMIN_VERSION}* \
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get -qqqy update
+RUN apt-get -qqqy install apt-utils software-properties-common dctrl-tools
+
+RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes 
+
+ARG DEB_VERSION=1:9.16.20-2+ubuntu20.04.1+isc+1
+RUN add-apt-repository -y ppa:isc/bind
+RUN apt-get -qqqy update && apt-get -qqqy dist-upgrade && apt-get -qqqy install bind9=$DEB_VERSION bind9-utils=$DEB_VERSION
+RUN  && apt-get update \
+        apt-get install webmin tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/bind && chown root:bind /etc/bind/ && chmod 755 /etc/bind
+RUN mkdir -p /var/cache/bind && chown bind:bind /var/cache/bind && chmod 755 /var/cache/bind
+RUN mkdir -p /var/lib/bind && chown bind:bind /var/lib/bind && chmod 755 /var/lib/bind
+RUN mkdir -p /var/log/bind && chown bind:bind /var/log/bind && chmod 755 /var/log/bind
+RUN mkdir -p /run/named && chown bind:bind /run/named && chmod 755 /run/named    
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
