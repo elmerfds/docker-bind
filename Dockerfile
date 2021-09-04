@@ -1,17 +1,17 @@
-FROM ubuntu:focal AS add-apt-repositories
+FROM ubuntu:hirsute AS add-apt-repositories
 
 RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://www.webmin.com/jcameron-key.asc \
- && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
-FROM ubuntu:focal
+FROM ubuntu:hirsute
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.16.1 \
+    BIND_VERSION=9.16.8 \
     #WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
@@ -30,7 +30,7 @@ COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         tzdata \
         bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
         webmin \
