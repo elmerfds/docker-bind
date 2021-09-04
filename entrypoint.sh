@@ -52,7 +52,7 @@ create_bind_data_dir() {
     mkdir -p "${BIND_DATA_DIR}"/lib
     chown "${BIND_USER}":"${BIND_USER}" "${BIND_DATA_DIR}"/lib
   fi
-  #rm -rf /var/lib/bind
+  rm -rf /var/lib/bind
   ln -sf "${BIND_DATA_DIR}"/lib /var/lib/bind
   mkdir -p "${BIND_DATA_DIR}"/etc/logs
   touch "${BIND_DATA_DIR}"/etc/logs/named.log
