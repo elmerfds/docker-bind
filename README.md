@@ -4,11 +4,11 @@ A fork of [sameersbn/bind](https://github.com/sameersbn/docker-bind) repo, what'
 - Multiarch Support: 
   * amd64
   * armv7, arm64 i.e. supports RPi 3/4
-- Running on Ubuntu 19
-- Bind: 9.11.5 
-- Webmin: 1.941+ (which mitigates [vulnerability](https://thehackernews.com/2019/08/webmin-vulnerability-hacking.html))
+- Running on Ubuntu Hirsute
+- Bind: 9.16.8
+- Webmin: Always pulls latest (during image build)
 - Added Timezone (TZ) support
-- Image auto-builds on schedule (every Sat 12:00)
+- Image auto-builds on schedule (every Sat 00:00)
 - Ubuntu updates will be applied during each scheduled build
 - Reverse Proxy friendly ([utkuozdemir/docker-bind](https://github.com/utkuozdemir/docker-bind/tree/webmin-reverse-proxy-config))
 - Fixes to [utkuozdemir/docker-bind](https://github.com/utkuozdemir/docker-bind/tree/webmin-reverse-proxy-config)'s 'Reverse Proxy friendly' update. 
