@@ -45,8 +45,6 @@ create_bind_data_dir() {
   fi
   rm -rf /etc/bind
   ln -sf "${BIND_DATA_DIR}"/etc /etc/bind
-  chmod -R 0775 "${BIND_DATA_DIR}"
-  chown -R "${BIND_USER}":"${BIND_USER}" "${BIND_DATA_DIR}"
 
   if [ ! -d "${BIND_DATA_DIR}"/lib ]; then
     mkdir -p "${BIND_DATA_DIR}"/lib
@@ -56,6 +54,8 @@ create_bind_data_dir() {
   ln -sf "${BIND_DATA_DIR}"/lib /var/lib/bind
   mkdir -p "${BIND_DATA_DIR}"/etc/logs
   touch "${BIND_DATA_DIR}"/etc/logs/named.log
+  chmod -R 0775 "${BIND_DATA_DIR}"
+  chown -R "${BIND_USER}":"${BIND_USER}" "${BIND_DATA_DIR}"
 
 }
 
