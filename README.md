@@ -104,6 +104,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e WEBMIN_INIT_SSL_ENABLED=false` | Enable/Disable Webmin SSL (true/false). If Webmin should be served via SSL or not. Defaults to `true`. |
 | `-e WEBMIN_INIT_REFERERS` | Enable/Disable Webmin SSL (true/false). Sets the allowed referrers to Webmin. Set this to your domain name of the reverse proxy. Example: `mywebmin.example.com`. Defaults to empty (no referrer)|
 | `-e WEBMIN_INIT_REDIRECT_PORT` | The port Webmin is served from. Set this to your reverse proxy port, such as `443`. Defaults to `10000`. |
+| `-e WEBMIN_INIT_REDIRECT_SSL` | Enable/Disable Webmin SSL redirection after login (true/false). Set this to `true` if behind a SSL terminator. Defaults to `false`|
 | `-e BIND_EXTRA_FLAGS` | Default set to -g |
 | `-v /data` | Mount data directory for persistent config  |
 | `-e TZ=Europe/London` | Specify a timezone to use e.g. Europe/London |
