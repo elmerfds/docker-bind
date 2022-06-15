@@ -32,6 +32,7 @@ WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
 WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
 WEBMIN_INIT_REFERERS=${WEBMIN_INIT_REFERERS:-NONE}
+WEBMIN_INIT_REDIRECT_SSL=${WEBMIN_INIT_REDIRECT_SSL:-false}
 
 BIND_DATA_DIR=${DATA_DIR}/bind
 WEBMIN_DATA_DIR=${DATA_DIR}/webmin
@@ -114,6 +115,38 @@ create_bind_cache_dir() {
   chown root:"${BIND_USER}" /var/cache/bind
 }
 
+disable_webmin_redirect_ssl() {
+  sed -i '/webprefixnoredir=1/d' /etc/webmin/config
+  sed -i '/relative_redir=0/d' /etc/webmin/config
+  sed -i '/redirect_ssl=1/d' /etc/webmin/miniserv.conf
+}
+
+enable_webmin_redirect_ssl() {
+  webmin_webprefixnoredir_var_exists=$(grep -q "webprefixnoredir=" "/etc/webmin/config" ; echo $?)
+  if [ "$webmin_webprefixnoredir_var_exists" == "1" ] 
+  then  
+    echo "webprefixnoredir=1" >> /etc/webmin/config
+  else
+    sed -i "s/^webprefixnoredir=.*/webprefixnoredir=1/" /etc/webmin/config
+  fi
+
+  webmin_relative_redir_var_exists=$(grep -q "relative_redir=" "/etc/webmin/config" ; echo $?)
+  if [ "$webmin_relative_redir_var_exists" == "1" ] 
+  then  
+    echo "relative_redir=0" >> /etc/webmin/config
+  else
+    sed -i "s/^relative_redir=.*/relative_redir=0/" /etc/webmin/config
+  fi
+
+  webmin_redirect_ssl_var_exists=$(grep -q "redirect_ssl=" "/etc/webmin/miniserv.conf" ; echo $?)
+  if [ "$webmin_redirect_ssl_var_exists" == "1" ] 
+  then  
+    echo "redirect_ssl=1" >> /etc/webmin/miniserv.conf
+  else
+    sed -i "s/^redirect_ssl=.*/redirect_ssl=1/" /etc/webmin/miniserv.conf
+  fi
+}
+
 first_init() {
     set_webmin_redirect_port
     if [ "${WEBMIN_INIT_SSL_ENABLED}" == "false" ]; then
@@ -130,7 +163,13 @@ first_init() {
       then 
         sed -i "/^referers=.*/d" /etc/webmin/config 
       fi
-    fi    
+    fi
+    # Enable/disable SSL redirect after login
+    if [ "${WEBMIN_INIT_REDIRECT_SSL}" == "false" ]; then
+      disable_webmin_redirect_ssl
+    elif [ "${WEBMIN_INIT_REDIRECT_SSL}" == "true" ]; then
+      enable_webmin_redirect_ssl
+    fi
 }
 
 create_pid_dir
