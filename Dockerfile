@@ -5,7 +5,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl \
  && apt-key adv --fetch-keys https://download.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+ && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg
 
 FROM ubuntu:22.10
