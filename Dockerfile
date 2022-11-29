@@ -32,7 +32,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         tzdata \
-        bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
+        bind9 bind9utils bind9-doc dnsutils \
         webmin \
         #webmin=${WEBMIN_VERSION}* \
 && rm -rf /var/lib/apt/lists/*
