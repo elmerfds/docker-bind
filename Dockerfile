@@ -14,17 +14,14 @@ RUN apt-get update \
  && apt-get install -y curl wget \
  && wget https://download.webmin.com/jcameron-key.asc \
  && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg \
- && apt-get update \
- && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
- && rm -rf /var/lib/apt/lists/* \
- && rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
+ && apt-get update \
  && apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        webmin \
         tzdata \
         bind9 bind9utils bind9-doc dnsutils \
-        webmin \
         #webmin=${WEBMIN_VERSION}* \
  && rm -rf /var/lib/apt/lists/*
 
