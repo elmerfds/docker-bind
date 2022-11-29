@@ -17,7 +17,7 @@ RUN apt-get update \
  && apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
  && rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && apt-get upgrade -y \
