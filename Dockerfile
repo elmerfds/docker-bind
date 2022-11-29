@@ -11,7 +11,7 @@ FROM ubuntu:hirsute
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
-    BIND_VERSION=9.16.8 \
+    BIND_VERSION=9.18.1 \
     #WEBMIN_VERSION=1.980 \
     DATA_DIR=/data \
     WEBMIN_INIT_SSL_ENABLED="" \
