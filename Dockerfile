@@ -1,14 +1,4 @@
 FROM ubuntu:22.10 AS add-apt-repositories
-
-RUN apt-get update \
- && apt-get upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
- && apt-get install -y curl \
- && apt-key adv --fetch-keys https://download.webmin.com/jcameron-key.asc \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
- && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg
-
-FROM ubuntu:22.10
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
@@ -18,15 +8,19 @@ ENV BIND_USER=bind \
     WEBMIN_INIT_SSL_ENABLED="" \
     TZ=""    
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-# hadolint ignore=DL3005,DL3008,DL3008 
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
+ && apt-get install -y curl wget \
+ && wget https://download.webmin.com/jcameron-key.asc \
+ && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg
+
+
 RUN  apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list    
 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
