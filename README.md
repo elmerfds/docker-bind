@@ -14,6 +14,7 @@ A fork of [sameersbn/bind](https://github.com/sameersbn/docker-bind) repo, what'
 - Fixes to [utkuozdemir/docker-bind](https://github.com/utkuozdemir/docker-bind/tree/webmin-reverse-proxy-config)'s 'Reverse Proxy friendly' update. 
   * Cleanup of config & miniserv.conf when variables are used & then removed
   * Removing duplicate entries to config & miniserv.conf
+- Allow bind log to file ([WindoC/docker-bind](https://github.com/WindoC/docker-bind/tree/patch-1))
  
 ## Contents
 - [Introduction](#introduction)
@@ -105,5 +106,6 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e WEBMIN_INIT_REFERERS` | Enable/Disable Webmin SSL (true/false). Sets the allowed referrers to Webmin. Set this to your domain name of the reverse proxy. Example: `mywebmin.example.com`. Defaults to empty (no referrer)|
 | `-e WEBMIN_INIT_REDIRECT_PORT` | The port Webmin is served from. Set this to your reverse proxy port, such as `443`. Defaults to `10000`. |
 | `-e BIND_EXTRA_FLAGS` | Default set to -g |
+| `-e BIND_LOG_STDERR` | Default set to false. To allow bind log to file, that makes bind not force all log to STDERR |
 | `-v /data` | Mount data directory for persistent config  |
 | `-e TZ=Europe/London` | Specify a timezone to use e.g. Europe/London |
