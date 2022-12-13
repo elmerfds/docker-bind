@@ -32,6 +32,7 @@ WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
 WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
 WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
 WEBMIN_INIT_REFERERS=${WEBMIN_INIT_REFERERS:-NONE}
+BIND_LOG_STDERR=${BIND_LOG_STDERR:-false}
 
 BIND_DATA_DIR=${DATA_DIR}/bind
 WEBMIN_DATA_DIR=${DATA_DIR}/webmin
@@ -164,9 +165,9 @@ if [[ -z ${1} ]]; then
   echo '---------------------'
   echo
   if [ "${BIND_LOG_STDERR:-true}" == "true" ]; then
-    exec "$(command -v named)" -u ${BIND_USER} -g -c /etc/bind/named.conf ${EXTRA_ARGS}
+    exec "$(command -v named)" -u ${BIND_USER} -g ${EXTRA_ARGS}
   else
-    exec "$(command -v named)" -u ${BIND_USER} -f -c /etc/bind/named.conf ${EXTRA_ARGS}
+    exec "$(command -v named)" -u ${BIND_USER} -f ${EXTRA_ARGS}
   fi
   else
    exec "$@"
