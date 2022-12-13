@@ -163,7 +163,12 @@ if [[ -z ${1} ]]; then
   echo '|  Starting named   |'
   echo '---------------------'
   echo
-  exec "$(type -p named)" -u ${BIND_USER} ${BIND_EXTRA_FLAGS} -c /etc/bind/named.conf ${EXTRA_ARGS}
-else
-  exec "$@"
-fi
+  if [ "${BIND_LOG_STDERR:-true}" == "true" ]; then
+    exec "$(command -v named)" -u ${BIND_USER} -g -c /etc/bind/named.conf ${EXTRA_ARGS}
+  else
+    exec "$(command -v named)" -u ${BIND_USER} -f -c /etc/bind/named.conf ${EXTRA_ARGS}
+  fi
+  else
+   exec "$@"
+  fi
+  
