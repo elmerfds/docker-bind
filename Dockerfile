@@ -1,4 +1,4 @@
-FROM ubuntu:22.10 AS add-apt-repositories
+FROM ubuntu:18.04 AS add-apt-repositories
 LABEL maintainer="eafxx"
 
 ENV BIND_USER=bind \
@@ -12,9 +12,10 @@ RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl wget \
- && echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
+ && echo "deb [signed-by=/usr/share/keyrings/jcameron-key.gpg]" >> /etc/apt/sources.list/webmin.list \
+ && echo "https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list/webmin.list \
  && wget https://download.webmin.com/jcameron-key.asc \
- && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg \
+ && apt-key add jcameron-key.asc \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
  && apt-get update \
  && apt-get update \
