@@ -12,8 +12,8 @@ RUN apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg --no-install-recommends \
  && apt-get install -y curl wget \
- && echo "deb [signed-by=/usr/share/keyrings/jcameron-key.gpg]" >> /etc/apt/sources.list/webmin.list \
- && echo "https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list/webmin.list \
+ && echo "deb [signed-by=/usr/share/keyrings/jcameron-key.gpg]" >> /etc/apt/sources.list \
+ && echo "https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && wget https://download.webmin.com/jcameron-key.asc \
  && apt-key add jcameron-key.asc \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
