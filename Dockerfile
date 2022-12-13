@@ -15,9 +15,8 @@ RUN apt-get update \
  && echo "deb [signed-by=/usr/share/keyrings/jcameron-key.gpg]" >> /etc/apt/sources.list \
  && echo "https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list \
  && wget https://download.webmin.com/jcameron-key.asc \
- && apt-key add jcameron-key.asc \
+ && cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg \
  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates \
- && apt-get update \
  && apt-get update \
  && apt-get upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
